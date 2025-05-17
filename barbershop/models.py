@@ -20,6 +20,7 @@ class Usuario(models.Model):
 class Servicios(models.Model):
     id = models.AutoField(primary_key=True,)
     nombre_servicio = models.CharField(max_length=50)
+    precio = models.IntegerField()
 
     def __str__(self):
         return self.nombre_servicio
