@@ -23,7 +23,7 @@ class Servicios(models.Model):
     precio = models.IntegerField()
 
     def __str__(self):
-        return self.nombre_servicio
+        return f"{self.nombre_servicio} - {self.precio}"
 
 
 class Cita(models.Model):
