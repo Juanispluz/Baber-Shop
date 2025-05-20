@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ service_type|title }} Services</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #fafafa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 16px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.15s;
+        }
+        .card:hover {
+            transform: translateY(-4px) scale(1.03);
+        }
+        .card img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+        }
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+            color: #222;
+        }
+        .back-link {
+            display: block;
+            margin: 40px auto 0 auto;
+            text-align: center;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ service_type|title }} Services</h1>
+        <div class="card-grid">
+            {% for service in services %}
+                <a href="{% url 'service_detail' service.id %}" class="card" style="text-decoration:none;">
+                    <img src="{{ service.image }}" alt="{{ service.name }}">
+                    <div class="card-title">{{ service.name }}</div>
+                </a>
+            {% empty %}
+                <div>No services found.</div>
+            {% endfor %}
+        </div>
+        <a href="{% url 'services' %}" class="back-link">Back to Services</a>
+    </div>
+</body>
+</html>
