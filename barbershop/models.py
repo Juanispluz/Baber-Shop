@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models # type: ignore
 
 # Create your models here.
 class Usuario(models.Model):
@@ -42,3 +42,11 @@ class Cita(models.Model):
 
     def __str__(self):
         return f"{self.usuario} - {self.fecha} {self.hora}"
+
+    def cancelar(self):
+        if self.estado != 'P':
+            return False, "Solo se pueden cancelar citas pendientes."
+        
+        self.estado = 'C'
+        self.save()
+        return True, "Cita cancelada exitosamente."
