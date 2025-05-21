@@ -1,13 +1,23 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import CitaForm
 
-# Create your views here.
-
-# Logica para la vista de inicio
-# cambiar por index.html!!!!!!!
 def index(request):
-    return render(request, 'services.html')
+    return render(request, 'index.html')
 
+def reservar_cita(request):
+    if request.method == 'POST':
+        form = CitaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Cita reservada con éxito.')
+            return redirect('reserva_exitosa')
+    else:
+        form = CitaForm()
+    return render(request, 'reserva_form.html', {'form': form})
 
+def reserva_exitosa(request):
+    return render(request, 'reserva_exitosa.html')
 
 
 # Logica para los Details de los Services
