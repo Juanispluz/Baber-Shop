@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}MVP Barbería{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/estilos.css' %}">
+</head>
+<body>
+
+    
+    <header>
+        MVP Barbería
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'inicio' %}">Home</a></li>
+            <li><a href="{% url 'quienes_somos' %}">About</a></li>
+            <li><a href="{% url 'servicios' %}">Our services</a></li>
+            <li><a href="{% url 'contacto' %}">Contact us</a></li>
+            <li><a href="https://super-duper-adventure-rx9g657g644fwpgq.github.dev/" target="_blank">Formulario</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        {% block contenido %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        &copy; 2025 MVP Barbería. Todos los derechos reservados.
+    </footer>
+
+    <script src="{% static 'bootstrap/js/scripts.js' %}"></script>
+</body>
+</html>
+
