@@ -42,3 +42,31 @@ class Cita(models.Model):
 
     def __str__(self):
         return f"{self.usuario} - {self.fecha} {self.hora}"
+
+#Formulario de citas
+class Citaform(models.Model):
+    nombre = models.CharField(label='Nombre', max_length=100)
+    apellido = models.CharField(label='Apellido', max_length=100)
+    cedula = models.IntegerField(label='Cédula')
+
+    barbero = models.ModelChoiceField(
+        label='Seleccione su barbero',
+        queryset=Usuario.objects.filter(rol='B'),
+        empty_label="Seleccione un barbero"
+    )
+
+    servicio = models.ModelChoiceField(
+        label='Seleccione su servicio',
+        queryset=Servicios.objects.all(),
+        empty_label="Seleccione un servicio"
+    )
+
+    fecha = models.DateField(
+        label='Seleccione un día para el servicio',
+        widget=models.DateInput(attrs={'type': 'date'})
+    )
+
+    hora = models.TimeField(
+        label='Hora',
+        widget=models.TimeInput(attrs={'type': 'time'})
+    )
