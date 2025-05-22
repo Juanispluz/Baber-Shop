@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from .models import Cita
+from .models import Cita, Servicios
 
-# Create your views here.
+
 
 def index(request):
     return render(request, 'index.html')
@@ -15,7 +15,8 @@ def quienes_somos(request):
     return render(request, 'quienes_somos.html')
 
 def servicios(request):
-    return render(request, 'servicios.html')
+    servicios_list = Servicios.objects.all()
+    return render(request, 'servicios.html', {'servicios': servicios_list})
 
 def contacto(request):
     return render(request, 'contacto.html')
