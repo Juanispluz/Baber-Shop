@@ -1,4 +1,4 @@
-from .models import Usuario, Servicios, Cita
+from .models import *
 from datetime import date, time
 
 def crear_datos_prueba():

@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservar Cita</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="container">
+        <h2 class="text-center my-4">Formulario de Reserva</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" class="reserva-form">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="usuario">Nombres y apellidos *</label>
+                <select class="form-select" id="usuario" name="usuario" required>
+                    <option value="">Seleccione su nombre</option>
+                    {% for usuario in usuarios %}
+                        <option value="{{ usuario.cedula }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
+                    {% endfor %}
+                </select>
+                <div class="form-text">Por favor ingrese su nombre completo</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="barbero">Seleccione su barbero *</label>
+                <select class="form-select" id="barbero" name="barbero" required>
+                    <option value="">Seleccione un barbero</option>
+                    {% for barbero in barberos %}
+                        <option value="{{ barbero.cedula }}">{{ barbero.nombre }} {{ barbero.apellido }}</option>
+                    {% endfor %}
+                </select>
+                <div class="form-text">Barbero disponible para su atención</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="servicio">Seleccione su servicio *</label>
+                <select class="form-select" id="servicio" name="servicio" required>
+                    <option value="">Seleccione un servicio</option>
+                    {% for servicio in servicios %}
+                        <option value="{{ servicio.id }}">{{ servicio.nombre_servicio }} - ${{ servicio.precio }}</option>
+                    {% endfor %}
+                </select>
+                <div class="form-text">Ej: Corte, Barba, etc.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="fecha">Seleccione día para el servicio *</label>
+                <input type="date" class="form-control" id="fecha" name="fecha" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="hora">Seleccione hora para el servicio *</label>
+                <input type="time" class="form-control" id="hora" name="hora" required>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary px-4">Reservar</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
