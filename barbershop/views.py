@@ -17,3 +17,6 @@ def servicios(request):
 
 def contacto(request):
     return render(request, 'contacto.html')
+
+def home(request):
+    return render(request, 'home.html')
