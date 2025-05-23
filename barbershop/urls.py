@@ -6,5 +6,6 @@ from . import views
 urlpatterns = [
     # Inicio
     path("", views.index, name="index")
+    path('home/', views.home, name='home'),
 
 ]
