@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Quiénes Somos - MVP Barbería{% endblock %}
+
+{% block contenido %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 mb-4">Quiénes Somos</h1>
+                <p class="lead">Somos una barbería urbana especializada en cortes modernos, afeitados clásicos y cuidado de barba.</p>
+                <p>Nuestro equipo de barberos profesionales está dedicado a brindarte la mejor experiencia de cuidado personal.</p>
+                
+                <div class="mt-5">
+                    <h3>Nuestra Historia</h3>
+                    <p>Fundada en 2020, MVP Barbería nació de la pasión por el arte del barbering tradicional combinado con técnicas modernas.</p>
+                </div>
+                
+                <div class="mt-4">
+                    <a href="https://github.com/Juanispluz/Baber-Shop" 
+                       class="btn btn-primary btn-lg mt-3" 
+                       target="_blank">
+                        <i class="bi bi-github"></i> Visitar nuestro GitHub
+                    </a>
+                    <a href="{% url 'reservar_cita' %}" class="btn btn-outline-primary btn-lg mt-3 ms-2">
+                        Reservar una cita
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

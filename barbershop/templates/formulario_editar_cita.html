@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Cita</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4 text-center">Editar Cita</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="fecha" name="fecha" value="{{ cita.fecha|date:'Y-m-d' }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="hora" class="form-label">Hora</label>
+                <input type="time" class="form-control" id="hora" name="hora" value="{{ cita.hora|time:'H:i' }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="barbero" class="form-label">Barbero</label>
+                <select class="form-select" id="barbero" name="barbero" required>
+                    {% for barbero in barberos %}
+                        <option value="{{ barbero.cedula }}" {% if cita.barbero.cedula == barbero.cedula %}selected{% endif %}>
+                            {{ barbero.nombre }} {{ barbero.apellido }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Actualizar Cita</button>
+            </div>
+        </form>
+         <!-- Botón de Regresar -->
+        <div class="text-center">
+            <a href="{% url 'buscar_citas' %}?cedula={{ cita.usuario.cedula }}" class="btn btn-secondary">← Regresar</a>
+        </div>
+    </div>
+</body>
+</html>

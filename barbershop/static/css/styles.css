@@ -1,0 +1,350 @@
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Carrusel */
+.carousel-item {
+    position: relative;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 660px;
+    object-fit: cover;
+}
+
+.carousel-caption h5 {
+    position: relative;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: black;
+    background-color: rgba(255, 255, 255, 0.75);
+    font-size: 3rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
+
+.carousel-caption p {
+    font-size: 1.2rem;
+    color: rgb(2, 2, 2);
+    background-color: rgba(255, 255, 255, 0.75);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    display: inline-block;
+}
+
+.carousel-caption h6 {
+    font-size: 1.2rem;
+    color: rgb(250, 0, 0);
+    background-color: rgba(255, 255, 255, 0.75);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    display: inline-block;
+}
+
+/* Servicios */
+.services-grid {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    max-width: none;
+}
+
+.services-grid .top {
+    grid-column: 1 / span 2;
+    grid-row: 1;
+}
+
+.services-grid .cube {
+    position: relative;
+    background: #f5f5f5;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
+    overflow: hidden;
+}
+
+.services-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+.services-grid .message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    text-align: center;
+    font-weight: bold;
+    padding: 0 10px;
+    pointer-events: none;
+    width: 90%;
+}
+
+/* Formulario de reserva */
+.reserva-form {
+    background-color: #111;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+.reserva-form label {
+    font-weight: bold;
+    margin-top: 1rem;
+    color: #fff;
+}
+
+.reserva-form .form-control {
+    background-color: #222;
+    border: 1px solid #444;
+    color: #fff;
+}
+
+.reserva-form .form-text {
+    color: #ccc;
+    font-size: 0.85rem;
+}
+
+/* Detalles de servicio */
+.detail-container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    padding: 32px 24px;
+    text-align: center;
+}
+
+.detail-image {
+    width: 100%;
+    max-width: 350px;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.detail-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.detail-info {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+/* Lista de servicios */
+.service-list-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 16px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+}
+
+.service-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.15s;
+    text-decoration: none;
+    color: inherit;
+}
+
+.service-card:hover {
+    transform: translateY(-4px) scale(1.03);
+}
+
+.service-card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}
+
+.service-card-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 20px 0;
+    text-align: center;
+    color: #222;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .carousel-item img {
+        height: 300px;
+    }
+
+    .carousel-caption h5 {
+        font-size: 1.5rem;
+        padding: 0.3rem 0.8rem;
+    }
+
+    .carousel-caption p,
+    .carousel-caption h6 {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.8rem;
+    }
+
+    .col img {
+        height: 250px;
+        object-fit: cover;
+    }
+
+    .col h5 {
+        font-size: 1.2rem;
+    }
+
+    .col a {
+        font-size: 1rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .fs-3 {
+        font-size: 1.2rem !important;
+    }
+
+    section h2 {
+        font-size: 1.5rem;
+    }
+
+    section p {
+        font-size: 1rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+    }
+}
+
+/* Cambios de melissa */
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
+    color: #333;
+}
+
+header {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+nav {
+    background-color: white;
+    border-top: 3px solid black;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #007BFF;
+}
+
+.grid-galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 10px;
+    padding: 20px;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: brightness(60%);
+    transition: 0.3s ease;
+}
+
+.card:hover img {
+    filter: brightness(80%);
+    transform: scale(1.03);
+}
+
+.card-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+footer {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
