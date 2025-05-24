@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar Citas</title>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container mt-5">
+        <h2 class="text-center">Buscar Citas por Cédula</h2>
+
+        <form method="get" class="my-4">
+            <div class="input-group">
+                <input type="text" name="cedula" class="form-control" placeholder="Ingrese cédula" value="{{ cedula|default:'' }}" required>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% if citas %}
+            <h4>Citas encontradas:</h4>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Barbero</th>
+                        <th>Servicio</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cita in citas %}
+                        <tr>
+                            <td>{{ cita.fecha }}</td>
+                            <td>{{ cita.hora }}</td>
+                            <td>{{ cita.barbero }}</td>
+                            <td>{{ cita.servicio }}</td>
+                            <td>{{ cita.get_estado_display }}</td>
+                            <td>
+                                <a href="{% url 'formulario_editar_cita' cita.usuario.cedula %}?cita_id={{ cita.id }}" class="btn btn-sm btn-warning">Modificar</a>
+                                <a href="{% url 'eliminar_cita' cita.id %}" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar esta cita?');">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% elif cedula %}
+            <p>No se encontraron citas para esta cédula.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

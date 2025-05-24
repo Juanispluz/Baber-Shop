@@ -25,15 +25,16 @@
 
         <form method="post" class="reserva-form">
             {% csrf_token %}
-            
+
             <div class="mb-3">
-                <label for="usuario">Nombres y apellidos *</label>
-                <select class="form-select" id="usuario" name="usuario" required>
-                    <option value="">Seleccione su nombre</option>
-                    {% for usuario in usuarios %}
-                        <option value="{{ usuario.cedula }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
-                    {% endfor %}
-                </select>
+                <label for="cedula">Cédula *</label>
+                <input type="text" class="form-control" id="cedula" name="cedula" required>
+                <div class="form-text">Ingrese su número de cédula</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="nombre_completo">Nombres y apellidos *</label>
+                <input type="text" class="form-control" id="nombre_completo" name="nombre_completo" required>
                 <div class="form-text">Por favor ingrese su nombre completo</div>
             </div>
 

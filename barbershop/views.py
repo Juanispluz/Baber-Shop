@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.views.decorators.http import require_http_methods
 import json
 from datetime import datetime
 from django.contrib import messages
+from django.urls import reverse
 
 def index(request):
     return render(request, 'index.html')
@@ -19,18 +20,60 @@ def servicios(request):
 def contacto(request):
     return render(request, 'contacto.html')
 
-def cancelar_cita(request, cita_id):
-    if request.method == 'POST':
-        cita = get_object_or_404(Cita, id=cita_id)
-        
-        if request.user != cita.usuario:
-            return JsonResponse({'error': 'No tienes permiso para cancelar esta cita.'}, status=403)
+def buscar_citas(request):
+    citas = None
+    cedula = request.GET.get('cedula')
 
-        cita.estado = 'C'
-        cita.save()
-        return JsonResponse({'mensaje': 'Cita cancelada correctamente'})
-    
-    return JsonResponse({'error': 'Método no permitido.'}, status=405)
+    if cedula:
+        try:
+            usuario = Usuario.objects.get(cedula=cedula)
+            citas = Cita.objects.filter(usuario=usuario)
+        except Usuario.DoesNotExist:
+            messages.error(request, 'Usuario no encontrado')
+        except Exception as e:
+            messages.error(request, f'Error: {str(e)}')
+
+    return render(request, 'buscar_cita.html', {'citas': citas, 'cedula': cedula})
+
+def eliminar_cita(request, cita_id):
+    cita = get_object_or_404(Cita, id=cita_id)
+    cedula = cita.usuario.cedula
+    cita.delete()
+    messages.success(request, 'Cita eliminada correctamente')
+    return redirect(f'/buscar-citas/?cedula={cedula}')
+
+
+
+def formulario_editar_cita(request, cedula_usuario):
+    cita_id = request.GET.get('cita_id')
+    cita = get_object_or_404(Cita, id=cita_id, usuario__cedula=cedula_usuario)
+
+    if request.method == 'POST':
+        fecha = request.POST.get('fecha')
+        hora = request.POST.get('hora')
+        barbero_id = request.POST.get('barbero')
+
+        nuevo_barbero = get_object_or_404(Usuario, cedula=barbero_id, rol='B')
+
+        # Verificar disponibilidad del nuevo barbero
+        if Cita.objects.filter(barbero=nuevo_barbero, fecha=fecha, hora=hora).exclude(id=cita.id).exists():
+            messages.error(request, 'El barbero no está disponible en ese horario')
+        else:
+            cita.fecha = fecha
+            cita.hora = hora
+            cita.barbero = nuevo_barbero
+            cita.save()
+            messages.success(request, 'Cita actualizada correctamente')
+            return HttpResponseRedirect(
+                reverse('formulario_editar_cita', args=[cedula_usuario]) + f'?cita_id={cita.id}'
+            )
+        
+    barberos = Usuario.objects.filter(rol='B')
+    return render(request, 'formulario_editar_cita.html', {
+        'cita': cita,
+        'barberos': barberos
+    })
+
 
 @require_http_methods(["PUT"])
 def modificar_cita(request, cedula_usuario):
@@ -66,30 +109,47 @@ def modificar_cita(request, cedula_usuario):
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
+    
 
 def reservar_cita(request):
     if request.method == 'POST':
         try:
             # Obtener datos del formulario
-            usuario_id = request.POST.get('usuario')
+            cedula = request.POST.get('cedula')
+            nombre_completo = request.POST.get('nombre_completo')
             barbero_id = request.POST.get('barbero')
             servicio_id = request.POST.get('servicio')
             fecha = request.POST.get('fecha')
             hora = request.POST.get('hora')
 
-            # Validar y crear la cita
-            usuario = get_object_or_404(Usuario, cedula=usuario_id)
+            # Validar nombre completo
+            nombre_partes = nombre_completo.strip().split()
+            if len(nombre_partes) < 2:
+                messages.error(request, 'Por favor ingrese nombre y apellido.')
+                raise ValueError("Nombre incompleto")
+
+            nombre = nombre_partes[0]
+            apellido = ' '.join(nombre_partes[1:])
+
+            # Buscar o crear el usuario
+            usuario, creado = Usuario.objects.get_or_create(
+                cedula=cedula,
+                defaults={
+                    'nombre': nombre,
+                    'apellido': apellido,
+                    'rol': 'U',
+                    'password':('usuario123')  # Contraseña cifrada por defecto
+                }
+            )
+
+            # Obtener barbero y servicio
             barbero = get_object_or_404(Usuario, cedula=barbero_id, rol='B')
             servicio = get_object_or_404(Servicios, id=servicio_id)
 
             # Verificar disponibilidad
             if Cita.objects.filter(barbero=barbero, fecha=fecha, hora=hora).exists():
                 messages.error(request, 'El barbero no está disponible en ese horario')
-                return render(request, 'reserva_form.html', {
-                    'barberos': Usuario.objects.filter(rol='B'),
-                    'servicios': Servicios.objects.all(),
-                    'usuarios': Usuario.objects.filter(rol='U')  # Asegúrate de pasar los usuarios
-                })
+                raise ValueError("Horario ocupado")
 
             # Crear la cita
             Cita.objects.create(
@@ -106,17 +166,11 @@ def reservar_cita(request):
 
         except Exception as e:
             messages.error(request, f'Error al reservar cita: {str(e)}')
-            return render(request, 'reserva_form.html', {
-                'barberos': Usuario.objects.filter(rol='B'),
-                'servicios': Servicios.objects.all(),
-                'usuarios': Usuario.objects.filter(rol='U')
-            })
 
-    # Si es GET, mostrar formulario con datos necesarios
+    # Si es GET o en caso de error
     return render(request, 'reserva_form.html', {
         'barberos': Usuario.objects.filter(rol='B'),
         'servicios': Servicios.objects.all(),
-        'usuarios': Usuario.objects.filter(rol='U')
     })
 
 def reserva_exitosa(request):

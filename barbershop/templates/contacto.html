@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MVP Barbería</title>
+  <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+
+  <!-- Estilos integrados -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Georgia', serif;
+      background-color: black;
+      color: white;
+    }
+
+    
+
+    .contact-section {
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .contact-section h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .contact-section p {
+      margin-bottom: 40px;
+      font-size: 18px;
+      color: #ccc;
+    }
+
+    .contact-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      text-decoration: none;
+      color: black;
+      width: 250px;
+      transition: transform 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    .facebook {
+      background-color: #2a7c5a;
+      color: white;
+    }
+
+    .instagram {
+      background-color: black;
+      border: 2px solid white;
+      color: white;
+    }
+
+    .email {
+      background-color: white;
+      color: black;
+    }
+  </style>
+
+  <!-- Íconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    {% include 'navbar.html' %}
+
+  <section class="contact-section">
+    <h1>Contact us</h1>
+    <p>We are here to help you</p>
+
+    <div class="contact-buttons">
+      <a href="https://www.google.com/maps/place/Universidad+Cooperativa+De+Colombia" class="btn facebook">
+        <i class="fas fa-map-marker-alt"></i> UNIVERSIDAD
+      </a>
+      <a href="https://www.instagram.com/" class="btn instagram">
+        <i class="fab fa-instagram"></i> INSTAGRAM
+      </a>
+      <a href="mailto:example@example.com" class="btn email">
+        <i class="fas fa-envelope"></i> EMAIL
+      </a>
+    </div>
+  </section>
+  <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
